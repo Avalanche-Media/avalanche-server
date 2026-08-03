@@ -1,9 +1,10 @@
+import os
 import requests
 from flask import Flask, request, jsonify
 
 app = Flask(__name__)
 
-# Your secret token is NOW safe on the server, not in the user's app!
+# SECURITY FIX: Put your BRAND NEW Gumroad token here!
 GUMROAD_TOKEN = "RVBxQnrigF2-KSZ0pG25Og==" 
 GUMROAD_PRODUCT_ID = "kvrccx"
 
@@ -32,8 +33,7 @@ def verify():
     except Exception as e:
         return jsonify({"status": "error", "message": "Server error."}), 500
 
-import os
-
+# FIX: This is the part that stops Render from crashing!
 if __name__ == '__main__':
     port = int(os.environ.get('PORT', 8080))
     app.run(host='0.0.0.0', port=port)
