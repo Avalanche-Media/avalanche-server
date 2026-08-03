@@ -4,8 +4,8 @@ from flask import Flask, request, jsonify
 app = Flask(__name__)
 
 # Your secret token is NOW safe on the server, not in the user's app!
-GUMROAD_TOKEN = "NS6dofqgbS_S_9b3yDJ3qZM4kKtMiT8mMyHkiknh0uA" 
-GUMROAD_PRODUCT_ID = "seqts"
+GUMROAD_TOKEN = "RVBxQnrigF2-KSZ0pG25Og==" 
+GUMROAD_PRODUCT_ID = "kvrccx"
 
 @app.route('/verify', methods=['POST'])
 def verify():
