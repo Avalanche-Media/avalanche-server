@@ -4,9 +4,8 @@ from flask import Flask, request, jsonify
 
 app = Flask(__name__)
 
-# SECURITY FIX: Put your BRAND NEW Gumroad token here!
+# Put your Gumroad Access Token here
 GUMROAD_TOKEN = "Bkp1ceKc8O5XPtZS01ZUbnQo3GzDLOTUfHIxy1lkgxs" 
-GUMROAD_PRODUCT_ID = "kvrccx"
 
 @app.route('/verify', methods=['POST'])
 def verify():
@@ -17,10 +16,13 @@ def verify():
         return jsonify({"status": "error", "message": "No key provided."}), 400
         
     try:
+        # FIX: Removed the product_id completely! Gumroad will just check the key against your account.
+        # FIX: Added increment_uses_count=false so Gumroad doesn't lock your test key.
         resp = requests.post(
             "https://api.gumroad.com/v2/licenses/verify",
-            data={"product_id": GUMROAD_PRODUCT_ID, "license_key": license_key},
-            auth=(GUMROAD_TOKEN, ""), timeout=10
+            data={"license_key": license_key, "increment_uses_count": "false"},
+            auth=(GUMROAD_TOKEN, ""), 
+            timeout=10
         ).json()
         
         is_valid = resp.get('success', False) and not resp.get('purchase', {}).get('refunded', False)
@@ -33,7 +35,7 @@ def verify():
     except Exception as e:
         return jsonify({"status": "error", "message": "Server error."}), 500
 
-# FIX: This is the part that stops Render from crashing!
+# This part stops Render from crashing!
 if __name__ == '__main__':
     port = int(os.environ.get('PORT', 8080))
     app.run(host='0.0.0.0', port=port)
