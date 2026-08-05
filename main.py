@@ -5,7 +5,7 @@ from flask import Flask, request, jsonify
 app = Flask(__name__)
 
 # Put your actual Gumroad Access Token here (make sure it's the new one!)
-GUMROAD_TOKEN = "PASTE_YOUR_NEW_GUMROAD_ACCESS_TOKEN_HERE" 
+GUMROAD_TOKEN = "Bkp1ceKc8O5XPtZS01ZUbnQo3GzDLOTUfHIxy1lkgxs" 
 
 @app.route('/verify', methods=['POST'])
 def verify():
