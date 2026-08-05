@@ -4,8 +4,8 @@ from flask import Flask, request, jsonify
 
 app = Flask(__name__)
 
-# Put your Gumroad Access Token here
-GUMROAD_TOKEN = "Bkp1ceKc8O5XPtZS01ZUbnQo3GzDLOTUfHIxy1lkgxs" 
+# Put your actual Gumroad Access Token here (make sure it's the new one!)
+GUMROAD_TOKEN = "PASTE_YOUR_NEW_GUMROAD_ACCESS_TOKEN_HERE" 
 
 @app.route('/verify', methods=['POST'])
 def verify():
@@ -16,11 +16,15 @@ def verify():
         return jsonify({"status": "error", "message": "No key provided."}), 400
         
     try:
-        # FIX: Removed the product_id completely! Gumroad will just check the key against your account.
-        # FIX: Added increment_uses_count=false so Gumroad doesn't lock your test key.
+        # FIX: Added product_permalink back in. Gumroad needs to know which product this is for!
+        # FIX: increment_uses_count=false stops Gumroad from locking your test key.
         resp = requests.post(
             "https://api.gumroad.com/v2/licenses/verify",
-            data={"license_key": license_key, "increment_uses_count": "false"},
+            data={
+                "product_permalink": "kvrccx", 
+                "license_key": license_key, 
+                "increment_uses_count": "false"
+            },
             auth=(GUMROAD_TOKEN, ""), 
             timeout=10
         ).json()
